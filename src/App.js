@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './App.scss';
+import { useSelector, useDispatch } from 'react-redux';
+import { Header } from './components/Header/Header';
+import { Footer } from './components/Footer/Footer';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Auth } from './components/Auth/Auth';
+import { Main } from './components/Main/Main';
+import { Registration } from './components/Registration/Registration';
 
 function App() {
+  const user = useSelector((state) => state.userInfo.login);
+  const dispatch = useDispatch();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Router>
+        <Header />
+        <main className='main'>
+          <Routes>
+            <Route path='/' element={<Auth />} />
+            <Route path={`/:id`} element={<Main />} />
+            <Route path='/registration' element={<Registration />} />
+          </Routes>
+        </main>
+        <Footer />
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
