@@ -3,32 +3,32 @@ import { minLength, required } from "../../utils/validate/validate";
 import { useForm } from "react-hook-form";
 import { InputText } from "../Fields/InputText/InputText";
 import { DefaultButton } from "../Buttons/DefaultButton/DefaultButton";
-import { checkUser } from "../../utils/checkUser";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewUser } from "../../redux/usersStore";
-import { setAuthStatus } from "../../redux/generalStore";
-import { useNavigate } from "react-router-dom";
+import { setError } from "../../redux/generalStore";
+import { checkLogin } from "../../utils/checkLogin";
+import { useAuth } from "../../hooks/useAuth/useAuth";
 
 export const Registration = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const users = useSelector(state => state.users.users);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
+    const { onLogin } = useAuth();
     
     const onSubmit = data => {
-        const userFromDb = checkUser(users, data);
+        const token = data.login + data.password;
+        const userFromDb = checkLogin(users, data.login);
         if (userFromDb) {
-            dispatch(setAuthStatus('repeated'));
-            navigate('/');
+            dispatch(setError({type: 'registration', message: 'Repeated login'}));
         } else {
-            dispatch(addNewUser({...data, token: data.login + data.password}))
-            navigate(`/${data.login}`)
+            dispatch(addNewUser({...data, token: token}));
+            onLogin(token);
         }
     };
 
     return (
         <section className="auth-form">
+            <p>Регистрация</p>
             <div className='auth-form-body'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <InputText

@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    authStatus: ''
+    authStatus: 'wrong',
+    error: ''
 };
 
 const generalStore = createSlice({
@@ -11,9 +12,12 @@ const generalStore = createSlice({
         setAuthStatus: (state, action) => {
             state.authStatus = action.payload;
         },
+        setError: (state, action) => {
+            state.error = action.payload
+        }
     }
 });
 
-export const { setAuthStatus } = generalStore.actions;
+export const { setAuthStatus, setError } = generalStore.actions;
 
 export default generalStore.reducer;

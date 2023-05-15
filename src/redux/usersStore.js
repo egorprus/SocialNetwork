@@ -8,6 +8,7 @@ const initialState = {
             name: 'Prus Egor',
             age: 27,
             img: '',
+            token: 'admin12345678'
         }
     }
 };

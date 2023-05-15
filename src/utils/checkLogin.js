@@ -1,6 +1,6 @@
-export const checkUser = (dbUsers, verifiableData) => {
-    if (dbUsers[verifiableData.login]) {
-        return dbUsers[verifiableData.login];
+export const checkLogin = (dbUsers, login) => {
+    if (dbUsers[login]) {
+        return dbUsers[login];
     }
     return undefined;
 }
