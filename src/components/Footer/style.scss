@@ -1,3 +1,14 @@
-footer {
-    color: aqua;
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+.socials {
+    display: flex;
+    &__item {
+        & + & {
+            margin-left: 10px;
+        }
+    }
 }

@@ -11,10 +11,9 @@ export const AuthProvider = ({ children }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(token)
         if (token) {
-            console.log(location.state?.from.pathname || '/main');
-            navigate('/main');
+            const origin = location.state?.from.pathname || '/main';
+            navigate(origin);
         } else {
             navigate('/auth');
         }

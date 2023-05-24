@@ -25,7 +25,7 @@ function App() {
         <Router>
         <AuthProvider>
           <Header />
-          <main className='main'>
+          <main className='main container'>
             <Routes>
               <Route path='auth' element={<Auth />} />
               <Route
