@@ -1,37 +1,41 @@
 import React from "react";
-import './style.scss';
-import { useForm } from "react-hook-form";
-import { InputText } from "../Fields/InputText/InputText";
 import { minLength, required } from "../../utils/validate/validate";
-import { DefaultButton } from "../Buttons/DefaultButton/DefaultButton";
-import { useSelector } from "react-redux";
-import { authStatuses } from "../../constants/constants";
+import { useForm } from "react-hook-form";
+import { InputText } from "../../components/Fields/InputText/InputText";
+import { DefaultButton } from "../../components/Buttons/DefaultButton/DefaultButton";
+import { useDispatch } from "react-redux";
+import { fetchRegister } from "../../redux/authStore";
 import { useAuth } from "../../hooks/useAuth/useAuth";
 
-export const Auth = () => {
+export const Registration = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const authStatus = useSelector(state => state.general.authStatus)
+    const dispatch = useDispatch();
     const { onLogin } = useAuth();
-
-    const onSubmit = data => {
-        const token = data.login + data.password;
-        onLogin(token);
+    
+    const onSubmit = async (data) => {
+        dispatch(fetchRegister(data))
+            .then(res => {
+                if (res.payload?.token) {
+                    localStorage.setItem('token', res.payload?.token);
+                    onLogin(res.payload.token);
+                }
+            });
     };
 
     return (
-        <div className='auth-form'>
-            <p>авторизация</p>
+        <section className="auth-form">
+            <p>Регистрация</p>
             <div className='auth-form-body'>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {authStatus === authStatuses.repeated &&
-                        <p>
-                            you have account
-                        </p>
-                    }
                     <InputText
                         {...FIELDS.login}
                         register={register(FIELDS.login.name, {validate: {...FIELDS.login.validate}})}
                         errors={errors.login}
+                    />
+                    <InputText
+                        {...FIELDS.fullName}
+                        register={register(FIELDS.fullName.name, {validate: {...FIELDS.fullName.validate}})}
+                        errors={errors.fullName}
                     />
                     <InputText
                         {...FIELDS.password}
@@ -39,12 +43,9 @@ export const Auth = () => {
                         errors={errors.password}
                     />
                     <DefaultButton {...FIELDS.signIn} />
-                    <button type="button" onClick={onLogin}>
-                        Sign In
-                    </button>
                 </form>
             </div>
-        </div>
+        </section>
     )
 };
 
@@ -61,12 +62,20 @@ const FIELDS = {
         name: 'password',
         label: 'Password',
         validate: {
-            min: minLength(3),
+            min: minLength(8),
             required: required
         },
     },
+    fullName: {
+        name: 'fullName',
+        label: 'full name',
+        validate: {
+            min: minLength(3),
+            required: required
+        }
+    },
     signIn: {
-        text: 'sign in',
+        label: 'Sign up',
         type: 'submit'
     }
 }

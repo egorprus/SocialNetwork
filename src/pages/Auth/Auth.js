@@ -1,34 +1,36 @@
 import React from "react";
-import { minLength, required } from "../../utils/validate/validate";
+import './style.scss';
 import { useForm } from "react-hook-form";
-import { InputText } from "../Fields/InputText/InputText";
-import { DefaultButton } from "../Buttons/DefaultButton/DefaultButton";
-import { useDispatch, useSelector } from "react-redux";
-import { addNewUser } from "../../redux/usersStore";
-import { setError } from "../../redux/generalStore";
-import { checkLogin } from "../../utils/checkLogin";
+import { InputText } from "../../components/Fields/InputText/InputText";
+import { minLength, required } from "../../utils/validate/validate";
+import { DefaultButton } from "../../components/Buttons/DefaultButton/DefaultButton";
+import { useDispatch } from "react-redux";
+import { fetchAuth } from "../../redux/authStore";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth/useAuth";
 
-export const Registration = () => {
+export const Auth = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const users = useSelector(state => state.users.users);
     const dispatch = useDispatch();
-    const { onLogin } = useAuth();
-    
+    const { token, onLogin } = useAuth();
+
     const onSubmit = data => {
-        const token = data.login + data.password;
-        const userFromDb = checkLogin(users, data.login);
-        if (userFromDb) {
-            dispatch(setError({type: 'registration', message: 'Repeated login'}));
-        } else {
-            dispatch(addNewUser({...data, token: token}));
-            onLogin(token);
-        }
+        dispatch(fetchAuth(data))
+            .then(res => {
+                if (res.payload?.token) {
+                    localStorage.setItem('token', res.payload?.token);
+                    onLogin(res.payload.token);
+                }
+            });
     };
 
+    if(token) {
+        return <Navigate to='/main' />;
+    }
+
     return (
-        <section className="auth-form">
-            <p>Регистрация</p>
+        <div className='auth-form'>
+            <p>авторизация</p>
             <div className='auth-form-body'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <InputText
@@ -44,7 +46,7 @@ export const Registration = () => {
                     <DefaultButton {...FIELDS.signIn} />
                 </form>
             </div>
-        </section>
+        </div>
     )
 };
 
@@ -61,20 +63,12 @@ const FIELDS = {
         name: 'password',
         label: 'Password',
         validate: {
-            min: minLength(8),
+            min: minLength(3),
             required: required
         },
     },
-    // passwordRepeat: {
-    //     name: 'password',
-    //     label: 'Repeat password',
-    //     validate: {
-    //         min: minLength(8),
-    //         required: required
-    //     }
-    // },
     signIn: {
-        text: 'Sign up',
+        label: 'sign in',
         type: 'submit'
     }
 }

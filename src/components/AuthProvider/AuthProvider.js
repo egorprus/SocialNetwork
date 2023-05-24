@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo } from "../../redux/userInfoStore";
-import { checkUser } from "../../utils/checkUser";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/authStore";
 
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
-    const users = useSelector(state => state.users.users);
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const userFromDb = checkUser(users, token);
-        if (userFromDb) {
-            localStorage.setItem('token', token);
-            dispatch(setUserInfo({...userFromDb}));
-            const origin = location.state?.from.pathname || '/main';
-            navigate(origin);
+        console.log(token)
+        if (token) {
+            console.log(location.state?.from.pathname || '/main');
+            navigate('/main');
         } else {
-            navigate('/registration');
+            navigate('/auth');
         }
     }, [token]);
 
@@ -31,6 +27,7 @@ export const AuthProvider = ({ children }) => {
     const handleLogout = () => {
         setToken(null);
         localStorage.removeItem('token');
+        dispatch(logout());
     }
 
     const value = {

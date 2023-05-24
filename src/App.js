@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.scss';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { Auth } from './components/Auth/Auth';
-import { Main } from './components/Main/Main';
-import { Registration } from './components/Registration/Registration';
+
 import { AuthProvider } from './components/AuthProvider/AuthProvider';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
+import { fetchAuthMe } from './redux/authStore';
+import { PersonalPage } from './pages/PersonalPage/PersonalPage';
+import { Main } from './pages/Main/Main';
+import { Registration } from './pages/Registration/Registration';
+import { Auth } from './pages/Auth/Auth';
 
 function App() {
-  const user = useSelector((state) => state.userInfo.login);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAuthMe())
+  }, []);
+
   return (
       <div className='App'>
         <Router>
@@ -29,9 +36,17 @@ function App() {
                   </ProtectedRoute>
                 }
                 />
+                <Route
+                path=':login'
+                element={
+                  <ProtectedRoute>
+                    <PersonalPage />
+                  </ProtectedRoute>
+                }
+                />
               <Route path='registration' element={<Registration />} />
-              <Route path='/' element={<Auth />} />
-              <Route path='*' element={<Auth />} />
+              <Route path='/' element={<Main />} />
+              <Route path='*' element={<Main />} />
             </Routes>
           </main>
           <Footer />

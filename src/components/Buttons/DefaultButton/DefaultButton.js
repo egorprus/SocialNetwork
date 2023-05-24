@@ -1,9 +1,9 @@
 import './btn-style.scss';
 
-export const DefaultButton = ({type, text}) => {
+export const DefaultButton = ({type, label, handleClick, className}) => {
     return (
-        <button className='btn' type={type}>
-            {text}
+        <button className={`btn ${className || ''}`} type={type} onClick={handleClick}>
+            {label}
         </button>
     )
 };
