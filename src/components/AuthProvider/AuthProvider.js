@@ -5,39 +5,35 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../redux/authStore";
 
 export const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(localStorage.getItem('token'));
-    const navigate = useNavigate();
-    const location = useLocation();
-    const dispatch = useDispatch();
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (token) {
-            const origin = location.state?.from.pathname || '/main';
-            navigate(origin);
-        } else {
-            navigate('/auth');
-        }
-    }, [token]);
-
-    const handleLogin = async (token) => {
-        setToken(token);
+  useEffect(() => {
+    if (token) {
+      const origin = location.state?.from.pathname || "/main";
+      navigate(origin);
+    } else {
+      navigate("/auth");
     }
+  }, [token]);
 
-    const handleLogout = () => {
-        setToken(null);
-        localStorage.removeItem('token');
-        dispatch(logout());
-    }
+  const handleLogin = async (token) => {
+    setToken(token);
+  };
 
-    const value = {
-        token,
-        onLogin: handleLogin,
-        onLogout: handleLogout
-    };
+  const handleLogout = () => {
+    setToken(null);
+    localStorage.removeItem("token");
+    dispatch(logout());
+  };
 
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    )
+  const value = {
+    token,
+    onLogin: handleLogin,
+    onLogout: handleLogout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
