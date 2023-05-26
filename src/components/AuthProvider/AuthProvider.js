@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (token) {
+            console.log(location.state?.from.pathname)
             const origin = location.state?.from.pathname || '/main';
             navigate(origin);
         } else {

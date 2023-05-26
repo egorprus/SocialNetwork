@@ -7,17 +7,17 @@ import mail from '../../assets/icons/mail.svg';
 const SOCIALS_LIST = [
     {
         name: 'githab',
-        link: '/',
+        link: 'https://github.com/egorprus',
         icon: github
     },
     {
         name: 'linkedin',
-        link: '/',
+        link: 'https://www.linkedin.com/in/egor-prus-nik/',
         icon: linkedin
     },
     {
         name: 'email',
-        link: '/',
+        link: 'prus.egor.nik@gmail.com',
         icon: mail
     }
 ];
@@ -27,9 +27,9 @@ export const Footer = () => {
         <footer className="footer container">
             <div className="footer__itemn">
                 <ul className="socials">
-                    {SOCIALS_LIST.map(item => (
-                        <li className="socials__item">
-                            <a className="socials__link" href={item.link}>
+                    {SOCIALS_LIST.map((item, index) => (
+                        <li className="socials__item" key={index}>
+                            <a className="socials__link" href={item.link} target="_blanck">
                                 <img className="socials__icon" src={item.icon} alt={`link to ${item.name}`} />
                             </a>
                         </li>

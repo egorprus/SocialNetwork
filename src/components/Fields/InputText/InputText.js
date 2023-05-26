@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import './style.scss';
 
-export const InputText = ({label, register, errors, inputProcessing}) => {
+export const InputText = ({label, register, errors}) => {
     const [inputValue, setInputValue] = useState('');
     
     const handleChange = (e) => {
         let validationValue = e.target.value;
-        if (inputProcessing) {
-            validationValue = inputProcessing(validationValue);
-        }
         setInputValue(validationValue);
     }
 
