@@ -27,8 +27,8 @@ export const Footer = () => {
     <footer className="footer container">
       <div className="footer__itemn">
         <ul className="socials">
-          {SOCIALS_LIST.map((item) => (
-            <li className="socials__item">
+          {SOCIALS_LIST.map((item, index) => (
+            <li className="socials__item" key={index}>
               <a className="socials__link" href={item.link}>
                 <img
                   className="socials__icon"

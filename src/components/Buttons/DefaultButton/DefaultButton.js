@@ -1,3 +1,4 @@
+import React from "react";
 import "./btn-style.scss";
 
 export const DefaultButton = ({ type, label, handleClick, className }) => {

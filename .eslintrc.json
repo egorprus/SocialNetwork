@@ -20,6 +20,6 @@
         "react"
     ],
     "rules": {
-        "react/prop-types": ["ignore"] //[<"enabled">, { ignore: <ignore>,}]
+        "react/prop-types": 0
     }
 }

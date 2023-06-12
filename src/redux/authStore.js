@@ -68,7 +68,7 @@ const authStore = createSlice({
       state.status = "loaded";
       state.data = action.payload;
     },
-    [fetchRegister.rejected]: (state, action) => {
+    [fetchRegister.rejected]: (state) => {
       state.status = "error";
       state.data = null;
     },
