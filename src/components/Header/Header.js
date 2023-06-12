@@ -1,13 +1,15 @@
 import React from "react";
-import './style.scss';
-import { useSelector } from "react-redux";
+import "./style.scss";
+import { Profile } from "./Profile";
+import { useAuth } from "../../hooks/useAuth/useAuth";
 
 export const Header = () => {
-    const user = useSelector(state => state.userInfo);
-    return (
-        <header>
-            <h1>header</h1>
-            <p>{user.login}</p>
-        </header>
-    );
+  const { onLogout } = useAuth();
+
+  return (
+    <header className="header container">
+      <h1 className="header__logo">header</h1>
+      <Profile onLogout={onLogout} />
+    </header>
+  );
 };

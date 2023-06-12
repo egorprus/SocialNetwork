@@ -1,9 +1,14 @@
-import './btn-style.scss';
+import React from "react";
+import "./btn-style.scss";
 
-export const DefaultButton = ({type, text}) => {
-    return (
-        <button className='btn' type={type}>
-            {text}
-        </button>
-    )
+export const DefaultButton = ({ type, label, handleClick, className }) => {
+  return (
+    <button
+      className={`btn ${className || ""}`}
+      type={type}
+      onClick={handleClick}
+    >
+      {label}
+    </button>
+  );
 };

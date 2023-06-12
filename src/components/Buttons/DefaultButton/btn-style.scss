@@ -1,11 +1,11 @@
 .btn {
     width: 100%;
-    background-color: aquamarine;
-    border: none;
+    background-color: #daeae4;
+    border: 1px solid #ffffff;
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
     &:hover {
-        outline: 1px solid #444;
+        border-color: #444;
     }
 }
