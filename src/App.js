@@ -12,6 +12,8 @@ import { PersonalPage } from "./pages/PersonalPage/PersonalPage";
 import { Main } from "./pages/Main/Main";
 import { Registration } from "./pages/Registration/Registration";
 import { Auth } from "./pages/Auth/Auth";
+import { Posts } from "./pages/Posts/Posts";
+import { PostCreate } from "./components/Posts/PostCreate";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,14 +30,7 @@ function App() {
           <main className="main container">
             <Routes>
               <Route path="auth" element={<Auth />} />
-              <Route
-                path="main"
-                element={
-                  <ProtectedRoute>
-                    <Main />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="main" element={<Main />} />
               <Route
                 path=":login"
                 element={
@@ -45,6 +40,15 @@ function App() {
                 }
               />
               <Route path="registration" element={<Registration />} />
+              <Route path="posts" element={<Posts />} />
+              <Route
+                path="posts/create"
+                element={
+                  <ProtectedRoute>
+                    <PostCreate />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/" element={<Main />} />
               <Route path="*" element={<Main />} />
             </Routes>
