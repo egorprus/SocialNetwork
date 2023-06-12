@@ -6,6 +6,14 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   return data;
 });
 
+export const createPost = createAsyncThunk(
+  "posts/createPost",
+  async (params) => {
+    const { data } = await axios.post("/posts", params);
+    return data;
+  }
+);
+
 const initialState = {
   posts: {
     items: [],
@@ -31,6 +39,18 @@ const postsStore = createSlice({
       state.posts.status = "loaded";
     },
     [fetchPosts.rejected]: (state) => {
+      state.posts.items = [];
+      state.posts.status = "error";
+    },
+    [createPost.pending]: (state) => {
+      state.posts.items = [];
+      state.posts.status = "loading";
+    },
+    [createPost.fulfilled]: (state, action) => {
+      state.posts.items = action.payload;
+      state.posts.status = "loaded";
+    },
+    [createPost.rejected]: (state) => {
       state.posts.items = [];
       state.posts.status = "error";
     },

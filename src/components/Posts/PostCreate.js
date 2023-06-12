@@ -2,15 +2,22 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { InputText } from "../Fields/InputText/InputText";
 import { minLength, required } from "../../utils/validate/validate";
+import { DefaultButton } from "../Buttons/DefaultButton/DefaultButton";
+import { useDispatch } from "react-redux";
+import { createPost } from "../../redux/postsStore";
 
 export const PostCreate = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    dispatch(createPost(data)).then((res) => console.log(res));
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <InputText
@@ -21,11 +28,11 @@ export const PostCreate = () => {
         errors={errors.title}
       />
       <InputText
-        {...FIELDS.content}
-        register={register(FIELDS.content.name, {
-          validate: { ...FIELDS.content.validate },
+        {...FIELDS.text}
+        register={register(FIELDS.text.name, {
+          validate: { ...FIELDS.text.validate },
         })}
-        errors={errors.content}
+        errors={errors.text}
       />
       <InputText
         {...FIELDS.tags}
@@ -34,6 +41,7 @@ export const PostCreate = () => {
         })}
         errors={errors.tags}
       />
+      <DefaultButton type="submit" label="create" />
     </form>
   );
 };
@@ -47,8 +55,8 @@ const FIELDS = {
       required: required,
     },
   },
-  content: {
-    name: "content",
+  text: {
+    name: "text",
     label: "Text",
     validate: {
       min: minLength(3),
