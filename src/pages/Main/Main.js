@@ -14,13 +14,13 @@ const NAV_LIST = [
 ]
 
 export const Main = () => {
-    const { data } = useSelector(state => state.auth);
+  const { data } = useSelector((state) => state.auth);
 
-    if (!data) {
-        return <h1>loading...</h1>
-    }
+  if (!data) {
+    return <h1>loading...</h1>;
+  }
 
-    return (
+  return (
         <div>
             <nav className="nav">
                 <ul className="nav-list">

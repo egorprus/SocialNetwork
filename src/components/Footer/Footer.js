@@ -1,8 +1,8 @@
 import React from "react";
-import './style.scss';
-import github from '../../assets/icons/github.svg';
-import linkedin from '../../assets/icons/linkedin.svg';
-import mail from '../../assets/icons/mail.svg';
+import "./style.scss";
+import github from "../../assets/icons/github.svg";
+import linkedin from "../../assets/icons/linkedin.svg";
+import mail from "../../assets/icons/mail.svg";
 
 const SOCIALS_LIST = [
     {

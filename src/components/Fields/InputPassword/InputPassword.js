@@ -1,10 +1,12 @@
-import './style.scss';
+import "./style.scss";
 
-export const InputLogin = ({fieldName}) => {
-    return (
-        <div className='field-wrapper'>
-            <label htmlFor={fieldName} className='field__label'>Password</label>
-            <input className='field__input' type='text' name={fieldName} />
-        </div>
-    )
+export const InputLogin = ({ fieldName }) => {
+  return (
+    <div className="field-wrapper">
+      <label htmlFor={fieldName} className="field__label">
+        Password
+      </label>
+      <input className="field__input" type="text" name={fieldName} />
+    </div>
+  );
 };
