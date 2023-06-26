@@ -40,7 +40,14 @@ function App() {
                 }
               />
               <Route path="registration" element={<Registration />} />
-              <Route path="posts" element={<Posts />} />
+              <Route
+                path="posts"
+                element={
+                  <ProtectedRoute>
+                    <Posts />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="posts/create"
                 element={
