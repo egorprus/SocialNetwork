@@ -18,7 +18,6 @@ export const Main = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.auth);
   const { posts } = useSelector((state) => state.posts);
-  const publicPosts = posts.items.filter((item) => !item.privacy);
 
   useEffect(() => {
     dispatch(fetchPosts()).then((res) => console.log(res.payload));
@@ -43,7 +42,7 @@ export const Main = () => {
       </nav>
       <section className="section">
         <ul className="posts">
-          {publicPosts.map((item) => (
+          {posts.items.map((item) => (
             <li className="posts__item" key={item._id}>
               <h2 className="posts__item-title">{item.title}</h2>
               <p className="posts__item-text">{item.text}</p>
