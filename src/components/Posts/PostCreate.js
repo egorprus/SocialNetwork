@@ -5,9 +5,12 @@ import { minLength, required } from "../../utils/validate/validate";
 import { DefaultButton } from "../Buttons/DefaultButton/DefaultButton";
 import { useDispatch } from "react-redux";
 import { createPost } from "../../redux/postsStore";
+import { useNavigate } from "react-router-dom";
+import { Checkbox } from "../Fields/Checkbox/Checkbox";
 
 export const PostCreate = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -15,7 +18,10 @@ export const PostCreate = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    dispatch(createPost(data)).then((res) => console.log(res));
+    dispatch(createPost(data)).then((res) => {
+      console.log(res);
+      navigate("posts");
+    });
   };
 
   return (
@@ -41,6 +47,13 @@ export const PostCreate = () => {
         })}
         errors={errors.tags}
       />
+      <Checkbox
+        {...FIELDS.status}
+        register={register(FIELDS.status.name, {
+          validate: { ...FIELDS.status.validate },
+        })}
+        errors={errors.status}
+      />
       <DefaultButton type="submit" label="create" />
     </form>
   );
@@ -62,6 +75,10 @@ const FIELDS = {
       min: minLength(3),
       required: required,
     },
+  },
+  status: {
+    name: "status",
+    label: "Private",
   },
   tags: {
     name: "tags",

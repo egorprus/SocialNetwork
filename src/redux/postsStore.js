@@ -47,7 +47,7 @@ const postsStore = createSlice({
       state.posts.status = "loading";
     },
     [createPost.fulfilled]: (state, action) => {
-      state.posts.items = action.payload;
+      state.posts.items = [...state.posts.items, action.payload];
       state.posts.status = "loaded";
     },
     [createPost.rejected]: (state) => {
